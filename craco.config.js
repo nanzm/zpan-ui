@@ -1,3 +1,4 @@
+const { loaderByName, addBeforeLoader } = require("@craco/craco");
 const CracoLessPlugin = require("craco-less");
 
 module.exports = {
@@ -9,6 +10,20 @@ module.exports = {
     },
   },
   plugins: [
+    {
+      plugin: {
+        overrideWebpackConfig: ({ webpackConfig }) => {
+          const rawLoader = { test: /^iconfont.js$/, use: ["raw-loader"] };
+
+          addBeforeLoader(
+            webpackConfig,
+            loaderByName("file-loader"),
+            rawLoader
+          );
+          return webpackConfig;
+        },
+      },
+    },
     {
       plugin: CracoLessPlugin,
       options: {

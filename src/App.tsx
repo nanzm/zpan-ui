@@ -14,6 +14,12 @@ import { rootRoutes } from "./router";
 
 import "./App.less";
 
+// @ts-ignore
+import("!!raw-loader!./assets/font/iconfont.js").then((rawModule) => {
+  // eslint-disable-next-line no-eval
+  eval.call(window, rawModule.default);
+});
+
 const store = createStore();
 
 moment.locale("zh-cn");

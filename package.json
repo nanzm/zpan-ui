@@ -6,7 +6,8 @@
     "start-cra": "react-scripts start",
     "start": "craco start --verbose",
     "build": "craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "commit": "git cz"
   },
   "dependencies": {
     "ahooks": "^2.6.1",
@@ -37,6 +38,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.1.2",
+    "raw-loader": "^4.0.1",
     "react-scripts": "3.4.3",
     "typescript": "~3.7.2"
   },
