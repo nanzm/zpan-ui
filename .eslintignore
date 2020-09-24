@@ -1,0 +1,6 @@
+build/*
+public/*
+src/assets/*
+tmp/*
+
+src/react-app-env.d.ts
