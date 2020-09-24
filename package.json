@@ -7,13 +7,14 @@
     "start": "craco start --verbose",
     "build": "craco build",
     "test": "craco test",
-    "commit": "git cz"
+    "commit": "git-cz"
   },
   "dependencies": {
     "ahooks": "^2.6.1",
     "antd": "^4.6.5",
     "axios": "^0.20.0",
     "classnames": "^2.2.6",
+    "connected-react-router": "^6.8.0",
     "lodash": "^4.17.20",
     "moment": "^2.29.0",
     "react": "^16.13.1",
