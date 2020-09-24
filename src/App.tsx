@@ -5,13 +5,14 @@ import { renderRoutes } from "react-router-config";
 
 import { ConfigProvider } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
-import "antd/dist/antd.css";
 
 import moment from "moment";
 import "moment/locale/zh-cn";
 
 import createStore from "./store/createStore";
 import { rootRoutes } from "./router";
+
+import "./App.less";
 
 const store = createStore();
 
