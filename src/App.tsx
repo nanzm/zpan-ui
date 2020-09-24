@@ -21,7 +21,7 @@ moment.locale("zh-cn");
 const App = () => {
   return (
     <Provider store={store}>
-      <ConfigProvider locale={zhCN}>
+      <ConfigProvider locale={zhCN} prefixCls={"zpan"}>
         <BrowserRouter>{renderRoutes(rootRoutes)}</BrowserRouter>
       </ConfigProvider>
     </Provider>

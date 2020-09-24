@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
-import { Spin } from "antd";
+import { Spin, Layout, Menu } from "antd";
 import { connect } from "react-redux";
 import { renderRoutes } from "react-router-config";
 import style from "./style/layout.module.css";
+import LeftSide from "./LeftSide";
+import Footer from "./Footer";
+import { dashboardRoutes } from "src/router";
 
-const Layout = (props) => {
+const { Header } = Layout;
+
+const DashboardLayout = (props) => {
   const { dispatch } = props;
 
   useEffect(() => {}, []);
@@ -31,15 +36,18 @@ const Layout = (props) => {
   // const routes = filterRolesRouter(mainRoutes, props.currentRole);
 
   return (
-    <div className={style.dashboard}>
-      <div className={style.dashboard_head}>
-        <h1> header</h1>
-      </div>
-      <div className={style.dashboard_body}>
-        {/*<div className="dashboard-content">{renderRoutes(routes)}</div>*/}
-        <h1>body</h1>
-      </div>
-    </div>
+    <Layout className={style.dashboard_app}>
+      <Header className={style.dashboard_head}>
+        <div className="logo" />
+      </Header>
+      <Layout className={style.dashboard_body}>
+        <LeftSide />
+        <Layout className={style.dashboard_content}>
+          {renderRoutes(dashboardRoutes)}
+          <Footer />
+        </Layout>
+      </Layout>
+    </Layout>
   );
 };
 
@@ -47,4 +55,4 @@ const mapStateToProps = (state) => {
   return {};
 };
 
-export default connect(mapStateToProps)(Layout);
+export default connect(mapStateToProps)(DashboardLayout);
