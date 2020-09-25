@@ -8,6 +8,10 @@ export const resOK = (res) => {
   return res.data && res.data.code === 0;
 };
 
+export const resStatusOK = (res) => {
+  return res.status && res.status <= 300;
+};
+
 export const resHasData = (res) => {
   return resOK(res) && res.data.data;
 };
@@ -59,10 +63,6 @@ export const getArrayItem = (arr) => {
     return arr[0];
   }
   return null;
-};
-
-export const removeNumDot = (str) => {
-  return str.replace(/(^[\d]+(\.|\、))(.+)/, "$3");
 };
 
 export const isInArray = (array = [], item) => {

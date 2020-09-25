@@ -84,7 +84,7 @@ const LeftSide = (props) => {
         {menuRoutes.map((menu) => {
           return (
             <Menu.Item key={menu.link} icon={menu.icon}>
-              {menu.name}
+              {menu.link}
             </Menu.Item>
           );
         })}

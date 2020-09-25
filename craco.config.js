@@ -9,6 +9,20 @@ module.exports = {
       return webpackConfig;
     },
   },
+  devServer: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:8221",
+        ws: true,
+        changeOrigin: true,
+      },
+      "/moreu": {
+        target: "http://localhost:8221",
+        ws: true,
+        changeOrigin: true,
+      },
+    },
+  },
   plugins: [
     {
       plugin: {

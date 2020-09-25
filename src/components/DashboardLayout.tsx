@@ -37,11 +37,11 @@ const DashboardLayout = (props) => {
 
   return (
     <Layout className={style.dashboard_app}>
-      <Header className={style.dashboard_head}>
-        <div className="logo" />
-      </Header>
+      {/*<Header className={style.dashboard_head}>*/}
+      {/*  <div className="logo" />*/}
+      {/*</Header>*/}
       <Layout className={style.dashboard_body}>
-        <LeftSide />
+        {/*<LeftSide />*/}
         <Layout className={style.dashboard_content}>
           {renderRoutes(dashboardRoutes)}
           <Footer />

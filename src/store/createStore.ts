@@ -9,7 +9,7 @@ import rootSaga from "../saga";
 
 export const history = createBrowserHistory();
 
-export default function configureStore() {
+function configureStore() {
   // 创建saga中间件
   const sagaMiddleware = createSagaMiddleware();
 
@@ -24,3 +24,7 @@ export default function configureStore() {
 
   return store;
 }
+
+const store = configureStore();
+
+export default store;

@@ -1,11 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { message } from "antd";
 import DashboardContent from "src/components/DashboardContent";
+import CustomUpload from "src/components/CustomUpload";
 import style from "./index.module.css";
+import { myStorage } from "src/service/user";
+import { profile } from "src/service/moreu";
 
-export default function () {
+function ALL() {
+  useEffect(() => {
+    myStorage().then((res) => {});
+    profile().then((res) => {});
+  }, []);
+
   return (
     <DashboardContent>
-      <div className={style.page}>你好</div>
+      <div className={style.page}>
+        <CustomUpload />
+        {/*<input*/}
+        {/*  type="file"*/}
+        {/*  onChange={(e) => {*/}
+        {/*    console.log(e.target.files);*/}
+        {/*    //*/}
+        {/*    // upload(e.target.files[0], "")*/}
+        {/*    //   .then((res) => {})*/}
+        {/*    //   .catch((e) => {});*/}
+        {/*  }}*/}
+        {/*/>*/}
+      </div>
     </DashboardContent>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ALL);

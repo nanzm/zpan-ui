@@ -3,13 +3,13 @@ import { Provider } from "react-redux";
 import { renderRoutes } from "react-router-config";
 import { ConnectedRouter } from "connected-react-router";
 
-import { ConfigProvider } from "antd";
+import { ConfigProvider, message, notification, Modal } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 
 import moment from "moment";
 import "moment/locale/zh-cn";
 
-import configureStore, { history } from "./store/createStore";
+import store, { history } from "./store/createStore";
 import { rootRoutes } from "./router";
 
 import "./App.less";
@@ -20,9 +20,17 @@ import("!!raw-loader!./assets/font/iconfont.js").then((rawModule) => {
   eval.call(window, rawModule.default);
 });
 
-const store = configureStore();
-
 moment.locale("zh-cn");
+
+message.config({
+  prefixCls: "zpan-message",
+});
+notification.config({
+  prefixCls: "zpan-notification",
+});
+Modal.config({
+  rootPrefixCls: "zpan", // 因为 Modal.confirm 里有 button，所以 `prefixCls: 'ant-modal'` 不够用。
+});
 
 const App = () => {
   return (

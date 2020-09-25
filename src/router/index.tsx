@@ -33,7 +33,7 @@ export const dashboardRoutes = [
   {
     path: "/",
     exact: true,
-    render: () => <Redirect to={"/dashboard/main"} />,
+    render: () => <Redirect to={"/dashboard/all"} />,
   },
   {
     path: "/dashboard/all",

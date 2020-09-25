@@ -5,16 +5,11 @@ import { notification, message } from "antd";
 axios.defaults.withCredentials = true;
 
 const instance = axios.create({
-  timeout: 30000,
-  baseURL: "/api",
+  baseURL: "",
+  timeout: 10 * 1000,
   headers: { "Content-Type": "application/json" },
+  withCredentials: false,
 });
-
-const redirectToLogin = debounce(() => {
-  message.error("登录信息已过期，请重新登录！", 3, () => {
-    window.location.href = window.location.origin + "/login";
-  });
-}, 100);
 
 // 添加拦截器
 instance.interceptors.request.use(
@@ -30,24 +25,13 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    // 不拦截部分接口
-    // @ts-ignore
-    if (!response.config.noInterceptor) {
-      if (response.data && response.data.code === -402) {
-        localStorage.clear();
-        redirectToLogin();
-      } else if (response.data && response.data.code !== 0) {
-        // 错误提示
-        notification.error({
-          message: "错误",
-          description: response.data.msg,
-          duration: 4,
-        });
-      }
-    }
+    checkIsLoginError(response);
     return response;
   },
   (error) => {
+    const { response } = error;
+    checkIsLoginError(response);
+
     const errMsg = error.toJSON();
     if (errMsg.message.indexOf("timeout") > -1) {
       notification.error({
@@ -60,11 +44,40 @@ instance.interceptors.response.use(
       notification.error({
         message: "错误",
         description: `网络异常！`,
-        duration: 4,
+        duration: 3,
       });
     }
     return Promise.reject(error);
   }
 );
+
+const checkIsLoginError = debounce((response) => {
+  //不需要拦截
+  // @ts-ignore
+  if (!response || response.config.noInterceptor) return;
+
+  // 未登录
+  if (response.data && response.data.code === 403) {
+    localStorage.clear();
+    redirectToLogin();
+    return;
+  }
+
+  // 其他错误
+  if (response.data && response.status !== 200) {
+    notification.error({
+      message: "错误",
+      description: response.data.msg || response.data,
+      duration: 3,
+    });
+  }
+}, 100);
+
+const redirectToLogin = debounce(() => {
+  message.error("登录信息已过期，请重新登录！", 3, () => {
+    window.open("http://localhost:8221/moreu/signin?redirect=/");
+    // window.location.href = "/moreu/signin?redirect=/";
+  });
+}, 100);
 
 export default instance;
