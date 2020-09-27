@@ -27,6 +27,8 @@ const ACTION_HANDLERS = {
 };
 
 const initialState = {
+  refreshTimeStamp: Date.now(),
+
   // 当前文件夹层级
   currentDir: "",
 

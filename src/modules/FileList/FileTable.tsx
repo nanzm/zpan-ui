@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useDebounceFn } from "ahooks";
 import { connect } from "react-redux";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Table, Modal, Radio, Divider, Button, message } from "antd";
 import { RowSelectionType } from "antd/lib/table/interface";
 import mime from "mime-types";
+import qs from "qs";
 
 import { MenuProvider } from "react-contexify";
 import "react-contexify/dist/ReactContexify.min.css";
@@ -17,22 +20,20 @@ import { resHasList } from "src/common/helper";
 import formatSize from "src/common/size";
 import { standardFormat } from "src/common/timeformat";
 import { CLEAR_CURRENT_DIR, SET_CURRENT_DIR } from "src/redux/reducer/common";
+import FileUpload from "./FileUpload";
 
 interface FileTableProps {
+  refreshTimeStamp: number;
   currentDir: string;
   setCurrentDir: (dir: string) => void;
   clearCurrentDir: () => void;
 }
 
-const FileTable = (props: FileTableProps) => {
+const FileTable = (props: FileTableProps & RouteComponentProps) => {
   const [listLoading, setListLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const [createFoldModelVisible, setCreateFoldModelVisible] = useState(false);
   const [selectionType, setSelectionType] = useState("checkbox");
-
-  useEffect(() => {
-    refreshList();
-  }, [props.currentDir]);
 
   const refreshList = () => {
     setListLoading(true);
@@ -51,13 +52,31 @@ const FileTable = (props: FileTableProps) => {
     });
   };
 
+  const { run: debounceRefreshList } = useDebounceFn(() => refreshList(), {
+    wait: 100,
+  });
+
+  useEffect(() => {
+    debounceRefreshList();
+  }, [props.currentDir, props.refreshTimeStamp]);
+
+  useEffect(() => {
+    const query = qs.parse(props.search, { ignoreQueryPrefix: true });
+    if (query.path) {
+      props.setCurrentDir(query.path);
+    } else {
+      props.setCurrentDir("");
+    }
+  }, [props.search]);
+
   const handleClickFileName = (row) => {
     const { dirtype, name } = row;
     const { currentDir } = props;
 
     // 文件夹
     if (dirtype > 0) {
-      props.setCurrentDir(currentDir ? `${currentDir}/${name}` : name);
+      const cur = currentDir ? `${currentDir}${name}/` : `${name}/`;
+      props.history.push("/dashboard/all?path=" + encodeURIComponent(cur));
       return;
     }
 
@@ -126,26 +145,10 @@ const FileTable = (props: FileTableProps) => {
 
     const len = result.length;
     return result.map((i, index) => {
-      // if (index === 0) {
-      //   return (
-      //     <span key={index}>
-      //       <span>/</span>
-      //       <span>{i}</span>
-      //     </span>
-      //   );
-      // }
-      // if (index === len - 1) {
-      //   return (
-      //     <span key={index}>
-      //       <span>/</span>
-      //       <span>{i}</span>
-      //     </span>
-      //   );
-      // }
       return (
         <span key={index}>
-          <span>/</span>
           <span>{i}</span>
+          <span>/</span>
         </span>
       );
     });
@@ -162,6 +165,8 @@ const FileTable = (props: FileTableProps) => {
       {/*  <Radio value="checkbox">Checkbox</Radio>*/}
       {/*  <Radio value="radio">radio</Radio>*/}
       {/*</Radio.Group>*/}
+
+      <FileUpload />
 
       <Button className="ml-10" onClick={() => setCreateFoldModelVisible(true)}>
         new folder
@@ -208,7 +213,9 @@ const FileTable = (props: FileTableProps) => {
 
 const mapStateToProps = (state) => {
   return {
+    refreshTimeStamp: state.common.refreshTimeStamp,
     currentDir: state.common.currentDir,
+    search: state.router?.location?.search,
   };
 };
 
@@ -223,4 +230,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FileTable);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(FileTable));

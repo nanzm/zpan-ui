@@ -19,8 +19,6 @@ function ALL() {
   return (
     <DashboardContent>
       <div className={style.page}>
-        <FileUpload />
-
         <FileTable />
 
         {/*<input*/}

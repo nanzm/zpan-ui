@@ -39,6 +39,7 @@ function* uploadFile({ payload }: AnyAction) {
     type: UPLOAD_STATE_CHANGE,
     payload: {
       uploading: false,
+      refreshTimeStamp: Date.now(),
     },
   });
 }

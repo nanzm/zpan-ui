@@ -7,6 +7,7 @@ import { SAGA_UPLOAD } from "src/saga/common";
 import { CLEAR_UPLOAD_ERR_MSG } from "src/redux/reducer/common";
 
 interface UploadProps {
+  currentDir: string;
   uploading: boolean;
   uploadProgress: number;
   uploadErrorMsg: string;
@@ -18,6 +19,8 @@ interface UploadProps {
 interface UploadState {
   fileList: any;
 }
+
+let timer: any = null;
 
 class FileUpload extends React.Component<UploadProps, UploadState> {
   state = {
@@ -36,10 +39,16 @@ class FileUpload extends React.Component<UploadProps, UploadState> {
 
   handleUpload = () => {
     const { fileList } = this.state;
+    const { currentDir } = this.props;
+
     fileList.forEach((file) => {
-      this.props.uploadFile(file, "");
+      this.props.uploadFile(file, currentDir);
     });
   };
+
+  componentWillUnmount() {
+    timer && clearTimeout(timer);
+  }
 
   render() {
     const { fileList } = this.state;
@@ -84,6 +93,7 @@ class FileUpload extends React.Component<UploadProps, UploadState> {
 
 const mapStateToProps = (state) => {
   return {
+    currentDir: state.common.currentDir,
     uploading: state.common.uploading,
     uploadErrorMsg: state.common.uploadErrorMsg,
     uploadProgress: state.common.uploadProgress,

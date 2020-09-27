@@ -42,10 +42,10 @@ const CreateFolderModel = (props: CreateFolderModelPopOpts) => {
   };
 
   const createNewFold = (name) => {
-    const dir = props.currentDir;
-    create({ name, dir }).then((res) => {
+    const parentDir = props.currentDir;
+    create({ name, dir: parentDir }).then((res) => {
       if (resOK(res)) {
-        props.onSuccess(dir + name);
+        props.onSuccess(parentDir + name);
         message.success("文件夹创建成功");
       }
     });
