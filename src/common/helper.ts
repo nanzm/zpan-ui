@@ -32,7 +32,7 @@ export const packageData = (data) => {
 };
 
 export const getLastOne = (array) => {
-  if (array && Array.isArray(array)) {
+  if (array && Array.isArray(array) && array.length > 0) {
     return array[array.length - 1];
   }
   return null;
@@ -57,17 +57,10 @@ export const removeArrayItem = (array, item) => {
   return array.filter((i) => i !== item);
 };
 
-export const getArrayItem = (arr) => {
-  if (arr && arr.length) {
-    if (arr[0] === "-1") return null;
-    return arr[0];
-  }
-  return null;
-};
-
 export const isInArray = (array = [], item) => {
   return array.includes(item);
 };
+[];
 
 // 根据路由 role 配置过滤
 export const filterRolesRouter = (routes, currentRole) => {
