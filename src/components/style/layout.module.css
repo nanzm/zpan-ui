@@ -4,6 +4,9 @@
 }
 
 .dashboard_head {
+  position: relative;
+  background-color: #fff;
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,.05);
 }
 
 
@@ -14,12 +17,18 @@
 
 }
 
+.dashboard_aside_menu{
+  height: 100%;
+  border-right: 0;
+  background-color: #f7f7f7;
+}
+
 .dashboard_content {
   overflow: auto;
+  background-color: #fff;
 }
 
 .dashboard_content_page {
-  padding: 20px;
 }
 
 .powered_by {

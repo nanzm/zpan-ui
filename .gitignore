@@ -26,3 +26,6 @@ yarn-error.log*
 tmp
 yarn.lock
 package-lock.json
+
+
+demo.js

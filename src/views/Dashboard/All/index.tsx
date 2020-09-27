@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { message } from "antd";
+
 import DashboardContent from "src/components/DashboardContent";
-import CustomUpload from "src/components/CustomUpload";
-import style from "./index.module.css";
+import FileUpload from "src/modules/FileList/FileUpload";
+import FileTable from "src/modules/FileList/FileTable";
+
 import { myStorage } from "src/service/user";
 import { profile } from "src/service/moreu";
+import style from "./index.module.css";
 
 function ALL() {
   useEffect(() => {
@@ -16,7 +19,10 @@ function ALL() {
   return (
     <DashboardContent>
       <div className={style.page}>
-        <CustomUpload />
+        <FileUpload />
+
+        <FileTable />
+
         {/*<input*/}
         {/*  type="file"*/}
         {/*  onChange={(e) => {*/}

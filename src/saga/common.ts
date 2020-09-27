@@ -1,7 +1,7 @@
 import { all, takeLatest, put, call } from "redux-saga/effects";
 import { AnyAction } from "redux";
 import { getUploadSign, putToOss, uploaded } from "src/service/file";
-import { UPLOAD_STATE_CHANGE } from "../store/reducer/common";
+import { UPLOAD_STATE_CHANGE } from "../redux/reducer/common";
 import { resOK, resStatusOK } from "src/common/helper";
 
 function* uploadFile({ payload }: AnyAction) {

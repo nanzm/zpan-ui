@@ -51,7 +51,7 @@ instance.interceptors.response.use(
   }
 );
 
-const checkIsLoginError = debounce((response) => {
+const checkIsLoginError = (response) => {
   //不需要拦截
   // @ts-ignore
   if (!response || response.config.noInterceptor) return;
@@ -65,12 +65,16 @@ const checkIsLoginError = debounce((response) => {
 
   // 其他错误
   if (response.data && response.status !== 200) {
-    notification.error({
-      message: "错误",
-      description: response.data.msg || response.data,
-      duration: 3,
-    });
+    notificationError(response.data.msg || response.data);
   }
+};
+
+const notificationError = debounce((msg) => {
+  notification.error({
+    message: "错误",
+    description: msg,
+    duration: 3,
+  });
 }, 100);
 
 const redirectToLogin = debounce(() => {

@@ -9,7 +9,7 @@ import zhCN from "antd/es/locale/zh_CN";
 import moment from "moment";
 import "moment/locale/zh-cn";
 
-import store, { history } from "./store/createStore";
+import store, { history } from "./redux/createStore";
 import { rootRoutes } from "./router";
 
 import "./App.less";

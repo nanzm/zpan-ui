@@ -1,7 +1,6 @@
 import axios from "../common/axios";
-import * as zpanUtils from "../common/zpanUtils";
-import store from "src/store/createStore";
-import { UPLOAD_PROGRESS } from "../store/reducer/common";
+import store from "src/redux/createStore";
+import { UPLOAD_PROGRESS } from "../redux/reducer/common";
 
 export function getUploadSign(file, distDir, isPublic?) {
   const { name, type, size } = file;
@@ -24,45 +23,24 @@ export function uploaded(alias) {
 }
 
 export function findLink(alias) {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(`/api/files/${alias}`)
-      .then((ret) => {
-        resolve(ret.data);
-      })
-      .catch(reject);
-  });
+  return axios.get(`/api/files/${alias}`);
 }
 
-export function download(alias) {
-  return new Promise((resolve, reject) => {
-    this.findLink(alias).then((ret) => {
-      zpanUtils
-        .download(ret.name, ret.link)
-        .then(() => {
-          resolve(ret);
-        })
-        .catch(reject);
-    });
-  });
-}
+// export function download(alias) {
+//   return new Promise((resolve, reject) => {
+//     this.findLink(alias).then((ret) => {
+//       zpanUtils
+//         .download(ret.name, ret.link)
+//         .then(() => {
+//           resolve(ret);
+//         })
+//         .catch(reject);
+//     });
+//   });
+// }
 
-export function listObjects(params) {
-  return new Promise((resolve, reject) => {
-    axios
-      .get("/api/files", { params: params })
-      .then((data) => {
-        resolve(
-          data.data.list.map((item) => {
-            item.size = zpanUtils.formatBytes(item.size, 1);
-            item.fullpath = `${item.parent}${item.name}`;
-            if (item.dirtype) item.fullpath += "/";
-            return item;
-          })
-        );
-      })
-      .catch(reject);
-  });
+export function getAllFiles(params) {
+  return axios.get("/api/files", { params: params });
 }
 
 export function rename(alias, name) {

@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { isEqual } from "lodash";
 import { Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import { SAGA_UPLOAD } from "../saga/common";
-import { CLEAR_UPLOAD_ERR_MSG } from "../store/reducer/common";
+import { SAGA_UPLOAD } from "src/saga/common";
+import { CLEAR_UPLOAD_ERR_MSG } from "src/redux/reducer/common";
 
 interface UploadProps {
   uploading: boolean;
@@ -19,7 +19,7 @@ interface UploadState {
   fileList: any;
 }
 
-class CustomUpload extends React.Component<UploadProps, UploadState> {
+class FileUpload extends React.Component<UploadProps, UploadState> {
   state = {
     fileList: [],
   };
@@ -68,13 +68,13 @@ class CustomUpload extends React.Component<UploadProps, UploadState> {
     };
 
     const { uploading, uploadProgress } = this.props;
-    const progressTxt = `上传中 ${uploadProgress.toFixed(2)}%`;
+    const progressTxt = `uploading ${uploadProgress.toFixed(2)}%`;
 
     return (
       <>
         <Upload {...props}>
           <Button icon={<UploadOutlined />} type="primary" loading={uploading}>
-            {uploading ? progressTxt : "上传文件"}
+            {uploading ? progressTxt : "upload"}
           </Button>
         </Upload>
       </>
@@ -101,4 +101,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomUpload);
+export default connect(mapStateToProps, mapDispatchToProps)(FileUpload);

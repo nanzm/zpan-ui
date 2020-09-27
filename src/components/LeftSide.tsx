@@ -14,6 +14,7 @@ import {
   AlignCenterOutlined,
   OrderedListOutlined,
 } from "@ant-design/icons";
+import style from "./style/layout.module.css";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -74,17 +75,17 @@ const LeftSide = (props) => {
   }, []);
 
   return (
-    <Sider width={200} className="site-layout-background">
+    <Sider width={200}>
       <Menu
         mode="inline"
         defaultSelectedKeys={SelectedKeys}
-        style={{ height: "100%", borderRight: 0 }}
+        className={style.dashboard_aside_menu}
         onClick={menuClick}
       >
         {menuRoutes.map((menu) => {
           return (
             <Menu.Item key={menu.link} icon={menu.icon}>
-              {menu.link}
+              {menu.name}
             </Menu.Item>
           );
         })}
