@@ -1,4 +1,6 @@
 # zpan-ui
+![Test and Build](https://github.com/nanzm/zpan-ui/workflows/Test%20and%20Build/badge.svg?branch=develop)
+
 zpan fontend project
 
 ### server

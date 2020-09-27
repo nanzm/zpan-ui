@@ -60,7 +60,6 @@ export const removeArrayItem = (array, item) => {
 export const isInArray = (array = [], item) => {
   return array.includes(item);
 };
-[];
 
 // 根据路由 role 配置过滤
 export const filterRolesRouter = (routes, currentRole) => {
