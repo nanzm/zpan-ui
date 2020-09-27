@@ -79,8 +79,8 @@ const notificationError = debounce((msg) => {
 
 const redirectToLogin = debounce(() => {
   message.error("登录信息已过期，请重新登录！", 3, () => {
-    window.open("http://localhost:8221/moreu/signin?redirect=/");
-    // window.location.href = "/moreu/signin?redirect=/";
+    const h = window.location.href;
+    window.location.href = `/moreu/signin?redirect=${encodeURI(h)}`;
   });
 }, 100);
 
