@@ -24,27 +24,31 @@ const menuRoutes = [
     name: "全部文件",
     icon: <CopyOutlined />,
     key: "all",
-    link: "/dashboard/all",
+    link: "/dashboard/disk/all",
   },
   {
     name: "文档",
     icon: <BarChartOutlined />,
-    link: "/dashboard/document",
+    link: "/dashboard/disk/doc",
+    sub: true,
   },
   {
     name: "图片",
     icon: <PieChartOutlined />,
-    link: "/dashboard/picture",
+    link: "/dashboard/disk/image",
+    sub: true,
   },
   {
     name: "音频",
     icon: <AndroidOutlined />,
-    link: "/dashboard/audio",
+    link: "/dashboard/disk/audio",
+    sub: true,
   },
   {
     name: "视频",
     icon: <WeiboSquareOutlined />,
-    link: "/dashboard/video",
+    link: "/dashboard/disk/video",
+    sub: true,
   },
   {
     name: "我的分享",
@@ -75,16 +79,21 @@ const LeftSide = (props) => {
   }, []);
 
   return (
-    <Sider width={200}>
+    <Sider width={200} className={style.dashboard_aside}>
       <Menu
         mode="inline"
-        defaultSelectedKeys={SelectedKeys}
+        selectedKeys={SelectedKeys}
         className={style.dashboard_aside_menu}
         onClick={menuClick}
       >
         {menuRoutes.map((menu) => {
+          // const sty = menu.sub ? { paddingLeft: "20px" } : {};
           return (
-            <Menu.Item key={menu.link} icon={menu.icon}>
+            <Menu.Item
+              key={menu.link}
+              icon={menu.icon}
+              className={menu.sub ? "sub" : ""}
+            >
               {menu.name}
             </Menu.Item>
           );

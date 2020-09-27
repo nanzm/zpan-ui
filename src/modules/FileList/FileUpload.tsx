@@ -77,13 +77,13 @@ class FileUpload extends React.Component<UploadProps, UploadState> {
     };
 
     const { uploading, uploadProgress } = this.props;
-    const progressTxt = `uploading ${uploadProgress.toFixed(2)}%`;
+    const progressTxt = `上传中 ${uploadProgress.toFixed(2)}%`;
 
     return (
       <>
         <Upload {...props}>
           <Button icon={<UploadOutlined />} type="primary" loading={uploading}>
-            {uploading ? progressTxt : "upload"}
+            {uploading ? progressTxt : "上传"}
           </Button>
         </Upload>
       </>

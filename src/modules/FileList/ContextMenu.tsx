@@ -9,8 +9,8 @@ interface ContextMenuProps {
 const ContextMenu = (props: ContextMenuProps) => {
   return (
     <Menu id="menu_id">
-      <Item onClick={props.onCreateFolder}>Create folder</Item>
-      <Item onClick={props.onRefresh}>Refresh</Item>
+      <Item onClick={props.onCreateFolder}>新建文件夹</Item>
+      <Item onClick={props.onRefresh}>刷新</Item>
     </Menu>
   );
 };

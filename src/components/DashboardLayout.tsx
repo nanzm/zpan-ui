@@ -2,17 +2,23 @@ import React, { useEffect } from "react";
 import { Spin, Layout, Menu } from "antd";
 import { connect } from "react-redux";
 import { renderRoutes } from "react-router-config";
-import style from "./style/layout.module.css";
-import LeftSide from "./LeftSide";
-import Footer from "./Footer";
-import { dashboardRoutes } from "src/router";
 
-const { Header } = Layout;
+import Header from "./Header";
+import Footer from "./Footer";
+import LeftSide from "./LeftSide";
+
+import style from "./style/layout.module.css";
+import { dashboardRoutes } from "src/router";
+import { myStorage } from "../service/user";
+import { profile } from "../service/moreu";
 
 const DashboardLayout = (props) => {
   const { dispatch } = props;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    myStorage().then((res) => {});
+    profile().then((res) => {});
+  }, []);
 
   // 是否有 用户信息了
   const hasUserInfo = props.currentRole && props.detail.id;
@@ -37,11 +43,9 @@ const DashboardLayout = (props) => {
 
   return (
     <Layout className={style.dashboard_app}>
-      {/*<Header className={style.dashboard_head}>*/}
-      {/*  <div className="logo" />*/}
-      {/*</Header>*/}
+      <Header />
       <Layout className={style.dashboard_body}>
-        {/*<LeftSide />*/}
+        <LeftSide />
         <Layout className={style.dashboard_content}>
           {renderRoutes(dashboardRoutes)}
           <Footer />

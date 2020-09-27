@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useDebounceFn } from "ahooks";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { Table, Modal, Radio, Divider, Button, message } from "antd";
+import {
+  Table,
+  Modal,
+  Radio,
+  Breadcrumb,
+  Divider,
+  Button,
+  message,
+} from "antd";
 import { RowSelectionType } from "antd/lib/table/interface";
 import mime from "mime-types";
 import qs from "qs";
@@ -21,6 +29,7 @@ import formatSize from "src/common/size";
 import { standardFormat } from "src/common/timeformat";
 import { CLEAR_CURRENT_DIR, SET_CURRENT_DIR } from "src/redux/reducer/common";
 import FileUpload from "./FileUpload";
+import { getBreadcrumb } from "./common";
 
 interface FileTableProps {
   refreshTimeStamp: number;
@@ -43,6 +52,13 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
       type: null,
       kw: null,
     };
+
+    const type = props.match?.params?.type;
+    if (type !== "all") {
+      params.type = type;
+    }
+    console.log(type, props.match);
+
     getAllFiles(params).then((res) => {
       setListLoading(false);
       if (resHasList(res)) {
@@ -58,7 +74,7 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
 
   useEffect(() => {
     debounceRefreshList();
-  }, [props.currentDir, props.refreshTimeStamp]);
+  }, [props.currentDir, props.refreshTimeStamp, props.pathname]);
 
   useEffect(() => {
     const query = qs.parse(props.search, { ignoreQueryPrefix: true });
@@ -76,7 +92,7 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
     // 文件夹
     if (dirtype > 0) {
       const cur = currentDir ? `${currentDir}${name}/` : `${name}/`;
-      props.history.push("/dashboard/all?path=" + encodeURIComponent(cur));
+      navigationTo(cur);
       return;
     }
 
@@ -84,10 +100,22 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
     message.warn("暂时无法预览");
   };
 
+  const navigationTo = (cur) => {
+    const path = cur
+      ? "/dashboard/disk/all?path=" + encodeURIComponent(cur)
+      : "/dashboard/disk/all";
+    props.history.push(path);
+  };
+
   const columns = [
     {
       title: "名称",
       dataIndex: "name",
+      sorter: (a, b, order) => {
+        if (!"".localeCompare) return 0;
+        return a.name.localeCompare(b.name);
+      },
+      showSorterTooltip: false,
       render: (text, row) => {
         let icon = mime.extension(row.type);
         if (row.dirtype > 0) {
@@ -108,7 +136,10 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
       title: "大小",
       width: 150,
       dataIndex: "size",
-      render: (text) => {
+      render: (text, row) => {
+        if (row.dirtype > 0) {
+          return "-";
+        }
         return formatSize(text);
       },
     },
@@ -130,51 +161,43 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
         selectedRows
       );
     },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === "Disabled User", // Column configuration not to be checked
-      name: record.name,
+    getCheckboxProps: (row) => ({
+      disabled: row.dirtype > 0, // Column configuration not to be checked
+      name: row.name,
     }),
   };
 
-  const renderCurrentDir = (dir) => {
-    if (!dir) return "/";
-
-    const result = dir.split("/").filter((i) => !!i);
-
-    if (result.length <= 0) return null;
-
-    const len = result.length;
-    return result.map((i, index) => {
-      return (
-        <span key={index}>
-          <span>{i}</span>
-          <span>/</span>
-        </span>
-      );
-    });
+  const clickBreadcrumb = (item) => {
+    navigationTo(item.to);
   };
 
   return (
     <>
-      {/*<Radio.Group*/}
-      {/*  onChange={({ target: { value } }) => {*/}
-      {/*    setSelectionType(value);*/}
-      {/*  }}*/}
-      {/*  value={selectionType}*/}
-      {/*>*/}
-      {/*  <Radio value="checkbox">Checkbox</Radio>*/}
-      {/*  <Radio value="radio">radio</Radio>*/}
-      {/*</Radio.Group>*/}
-
-      <FileUpload />
-
-      <Button className="ml-10" onClick={() => setCreateFoldModelVisible(true)}>
-        new folder
-      </Button>
+      <div className="mb-20 ">
+        <FileUpload />
+        <Button
+          className="ml-10"
+          onClick={() => setCreateFoldModelVisible(true)}
+        >
+          新建文件夹
+        </Button>
+      </div>
 
       <Divider />
-      <div className="mb-10">
-        当前文件路径：{renderCurrentDir(props.currentDir)}
+
+      <div className="mb-20 pointer">
+        <Breadcrumb>
+          {getBreadcrumb(props.currentDir).map((item, index) => {
+            return (
+              <Breadcrumb.Item
+                key={index}
+                onClick={() => clickBreadcrumb(item)}
+              >
+                {item.name}
+              </Breadcrumb.Item>
+            );
+          })}
+        </Breadcrumb>
       </div>
 
       <MenuProvider id="menu_id" storeRef={false}>
@@ -183,6 +206,15 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
           rowSelection={{
             ...rowSelection,
             type: selectionType as RowSelectionType,
+          }}
+          onRow={(record) => {
+            return {
+              onMouseEnter: (event) => {},
+            };
+          }}
+          pagination={false}
+          onChange={(pagination, filters, sorter) => {
+            console.log(sorter);
           }}
           rowKey="id"
           columns={columns}
@@ -216,6 +248,7 @@ const mapStateToProps = (state) => {
     refreshTimeStamp: state.common.refreshTimeStamp,
     currentDir: state.common.currentDir,
     search: state.router?.location?.search,
+    pathname: state.router?.location?.pathname,
   };
 };
 

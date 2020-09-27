@@ -33,32 +33,12 @@ export const dashboardRoutes = [
   {
     path: "/",
     exact: true,
-    render: () => <Redirect to={"/dashboard/all"} />,
+    render: () => <Redirect to={"/dashboard/disk/all"} />,
   },
   {
-    path: "/dashboard/all",
+    path: "/dashboard/disk/:type",
     exact: true,
-    component: lazyLoad(() => import("src/views/Dashboard/All/index")),
-  },
-  {
-    path: "/dashboard/document",
-    exact: true,
-    component: lazyLoad(() => import("src/views/Dashboard/Document/index")),
-  },
-  {
-    path: "/dashboard/picture",
-    exact: true,
-    component: lazyLoad(() => import("src/views/Dashboard/Picture/index")),
-  },
-  {
-    path: "/dashboard/audio",
-    exact: true,
-    component: lazyLoad(() => import("src/views/Dashboard/Audio/index")),
-  },
-  {
-    path: "/dashboard/video",
-    exact: true,
-    component: lazyLoad(() => import("src/views/Dashboard/Video/index")),
+    component: lazyLoad(() => import("src/views/Dashboard/Disk/index")),
   },
   {
     path: "/dashboard/share",

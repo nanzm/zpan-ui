@@ -5,22 +5,30 @@
 
 .dashboard_head {
   position: relative;
+  z-index: 100;
   background-color: #fff;
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,.05);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .06);
+  display: flex;
+  justify-content: space-between;
+
 }
 
+.dashboard_head_logo {
+  font-size: 30px;
+  font-weight: bold;
+}
 
 .dashboard_body {
 }
 
 .dashboard_aside {
-
+  box-shadow: 2px 0 6px 0 rgba(0, 0, 0, .06);
 }
 
-.dashboard_aside_menu{
+.dashboard_aside_menu {
   height: 100%;
   border-right: 0;
-  background-color: #f7f7f7;
+  background-color: #fff;
 }
 
 .dashboard_content {
