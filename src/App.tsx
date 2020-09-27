@@ -4,7 +4,7 @@ import { renderRoutes } from "react-router-config";
 import { ConnectedRouter } from "connected-react-router";
 
 import { ConfigProvider, message, notification, Modal } from "antd";
-import zhCN from "antd/es/locale/zh_CN";
+import zhCN from "antd/lib/locale/zh_CN";
 
 import moment from "moment";
 import "moment/locale/zh-cn";
@@ -13,12 +13,7 @@ import store, { history } from "./redux/createStore";
 import { rootRoutes } from "./router";
 
 import "./App.less";
-
-// @ts-ignore
-import("!!raw-loader!./assets/font/iconfont.js").then((rawModule) => {
-  // eslint-disable-next-line no-eval
-  eval.call(window, rawModule.default);
-});
+import "./common/icon";
 
 moment.locale("zh-cn");
 
