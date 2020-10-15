@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import DashboardContent from "src/components/DashboardContent";
-import FileTable from "src/modules/FileList/FileTable";
+import FileTable from "src/components/FileList/FileTable";
 
 import { myStorage } from "src/service/user";
 import { profile } from "src/service/moreu";

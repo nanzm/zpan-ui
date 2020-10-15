@@ -18,6 +18,7 @@ import qs from "qs";
 import { MenuProvider } from "react-contexify";
 import "react-contexify/dist/ReactContexify.min.css";
 
+import Top from "src/components/Top/index";
 import SvgIcon from "src/components/SvgIcon";
 import ContextMenu from "./ContextMenu";
 import CreateFolderModel from "./CreateFolderModel";
@@ -29,7 +30,9 @@ import formatSize from "src/common/size";
 import { standardFormat } from "src/common/timeformat";
 import { CLEAR_CURRENT_DIR, SET_CURRENT_DIR } from "src/redux/reducer/common";
 import FileUpload from "./FileUpload";
-import { getBreadcrumb } from "./common";
+import { getBreadcrumb, getFileExt, formatIconName } from "./common";
+
+import "./style.scoped.less";
 
 interface FileTableProps {
   refreshTimeStamp: number;
@@ -116,18 +119,17 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
         return a.name.localeCompare(b.name);
       },
       showSorterTooltip: false,
-      render: (text, row) => {
-        let icon = mime.extension(row.type);
-        if (row.dirtype > 0) {
-          icon = "fold";
-        }
+      render: (name, row) => {
+        let icon = getFileExt(name);
+        icon = formatIconName(icon);
+        if (row.dirtype > 0) icon = "fold";
         return (
           <div className="pointer" onClick={() => handleClickFileName(row)}>
             <SvgIcon
-              name={icon ? icon : null}
+              name={icon}
               style={{ margin: "0 5px 0 0", fontSize: "20px" }}
             />
-            <span>{text}</span>
+            <span>{name}</span>
           </div>
         );
       },
@@ -173,19 +175,10 @@ const FileTable = (props: FileTableProps & RouteComponentProps) => {
 
   return (
     <>
-      <div className="mb-20 ">
-        <FileUpload />
-        <Button
-          className="ml-10"
-          onClick={() => setCreateFoldModelVisible(true)}
-        >
-          新建文件夹
-        </Button>
-      </div>
-
+      <Top />
       <Divider />
 
-      <div className="mb-20 pointer">
+      <div className="table-header">
         <Breadcrumb>
           {getBreadcrumb(props.currentDir).map((item, index) => {
             return (

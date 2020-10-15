@@ -29,6 +29,21 @@ each(range(10, 30, 10), {
   }
 });
 
+each(range(10, 30, 10), {
+  .pt-@{value} {
+    padding-top: (@value * 1px);
+  }
+  .pr-@{value} {
+    padding-right: (@value * 1px);
+  }
+  .pb-@{value} {
+    padding-bottom: (@value * 1px);
+  }
+  .pl-@{value} {
+    padding-left: (@value * 1px);
+  }
+});
+
 // iconfont
 .iconfont-symbol {
   width: 1em;

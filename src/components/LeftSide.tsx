@@ -15,9 +15,11 @@ import {
   OrderedListOutlined,
 } from "@ant-design/icons";
 import style from "./style/layout.module.css";
+import Header from "./Header";
+import MyCapacity from "./MyCapacity";
 
 const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const menuRoutes = [
   {
@@ -80,6 +82,7 @@ const LeftSide = (props) => {
 
   return (
     <Sider width={200} className={style.dashboard_aside}>
+      <Header />
       <Menu
         mode="inline"
         selectedKeys={SelectedKeys}
@@ -99,6 +102,8 @@ const LeftSide = (props) => {
           );
         })}
       </Menu>
+
+      <MyCapacity />
     </Sider>
   );
 };

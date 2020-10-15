@@ -16,6 +16,8 @@
 .dashboard_head_logo {
   font-size: 30px;
   font-weight: bold;
+  font-style: italic;
+  font-family: Optima;
 }
 
 .dashboard_body {

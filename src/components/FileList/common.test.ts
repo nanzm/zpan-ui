@@ -1,4 +1,4 @@
-import { getBreadcrumb } from "./common";
+import { getBreadcrumb, getFileExt } from "./common";
 
 it("getBreadcrumb", function () {
   expect(getBreadcrumb("")).toEqual([{ name: "全部文件", to: "" }]);
@@ -14,4 +14,11 @@ it("getBreadcrumb", function () {
     { name: "a", to: "a/" },
     { name: "b", to: "a/b/" },
   ]);
+});
+
+it("getFileExt", function () {
+  expect(getFileExt("a.gif")).toEqual("gif");
+  expect(getFileExt("b.a.gif")).toEqual("gif");
+  expect(getFileExt("")).toEqual("");
+  expect(getFileExt(undefined)).toEqual("");
 });

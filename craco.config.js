@@ -34,6 +34,8 @@ module.exports = {
             loaderByName("file-loader"),
             rawLoader
           );
+          webpackConfig.output.publicPath = "/web/";
+          console.log(webpackConfig);
           return webpackConfig;
         },
       },
@@ -51,6 +53,9 @@ module.exports = {
           },
         },
       },
+    },
+    {
+      plugin: require("craco-plugin-scoped-css"),
     },
   ],
 };

@@ -3,7 +3,6 @@ import { Spin, Layout, Menu } from "antd";
 import { connect } from "react-redux";
 import { renderRoutes } from "react-router-config";
 
-import Header from "./Header";
 import Footer from "./Footer";
 import LeftSide from "./LeftSide";
 
@@ -43,7 +42,6 @@ const DashboardLayout = (props) => {
 
   return (
     <Layout className={style.dashboard_app}>
-      <Header />
       <Layout className={style.dashboard_body}>
         <LeftSide />
         <Layout className={style.dashboard_content}>

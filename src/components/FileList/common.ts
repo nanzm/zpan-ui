@@ -25,3 +25,39 @@ export const getBreadcrumb = (dir) => {
   result.unshift(allFile);
   return result;
 };
+
+export const getFileExt = (filename: string): string => {
+  if (filename) {
+    const ext = filename.split(".").pop();
+    return `${ext}`;
+  }
+  return "";
+};
+
+export const formatIconName = (name: string): string => {
+  if (!name) return "unknown";
+
+  const has = [
+    "doc",
+    "pdf",
+    "jpg",
+    "jpeg",
+    "png",
+    "gif",
+    "xls",
+    "zip",
+    "ppt",
+    "psd",
+    "ai",
+    "rar",
+    "txt",
+    "exe",
+    "mov",
+    "avi",
+    "html",
+    "mp3",
+  ].includes(name.toLowerCase());
+  if (has) return name.toLocaleLowerCase();
+
+  return "unknown";
+};
